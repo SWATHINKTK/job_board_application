@@ -3,11 +3,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import InputField from "./InputField";
+import InputField from "./Common/InputField";
 import client from "@/graphql/client";
 import { CRETE_JOB_MUTATION } from "@/graphql/mutation";
 import { useJobContext } from "@/context/JobContext";
-import SelectField from "./SelectField";
+import SelectField from "./Common/SelectField";
 import toast from "react-hot-toast";
 
 const RightSide = () => {

@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 
 import client from "@/graphql/client";
 import { EDIT_JOB_MUTATION } from "@/graphql/mutation";
-import InputField from "./InputField";
-import SelectField from "./SelectField";
+import InputField from "./Common/InputField";
+import SelectField from "./Common/SelectField";
 import { useJobContext } from "@/context/JobContext";
 import toast from "react-hot-toast";
 

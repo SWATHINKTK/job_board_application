@@ -53,6 +53,7 @@ const LeftSide = () => {
     }, [filterData, setJobs]);
 
     useEffect(() => {
+        console.log('1')
         getData();
     }, [getData, filterData]);
 
@@ -116,42 +117,42 @@ const LeftSide = () => {
                     <div class="flex justify-center items-center my-4">
                         <div class="w-8 h-8 border-4 border-t-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
                     </div>)
-                    : jobs.length > 0 ?
-                        (<div className="grid md:grid-cols-2 grid-cols-1">
-                            {jobs.map((job, index) => (
-                                <div key={index} className="m-3 font-mono">
-                                    <div className="md:max-w-xs w-full overflow-hidden bg-white border border-gray-200 rounded-xl shadow-md transform transition-all duration-500 hover:shadow-lg hover:scale-105 relative group">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-white opacity-0 transition-opacity duration-500 group-hover:opacity-30 blur-md" />
-                                        <div className="px-6 py-5 relative z-10">
-                                            <p className="text-xl font-semibold text-gray-800 capitalize">
-                                                {job.title}
-                                            </p>
-                                            <p className="leading-none text-[#787878ce] text-[0.9rem] font-semibold">{job.role}</p>
-                                            <p className="font-semibold mt-3">{job.salary}</p>
-                                            <p>{job.location}</p>
-                                            <hr className="my-1" />
-                                            <div className="flex justify-between items-center font-semibold text-xs text-gray-500">
-                                                <p>{moment(job.createdAt).format('DD MMM YYYY')}</p>
-                                                <div className="flex justify-end items-center text-xs">
-                                                    <button className="p-2 rounded-full bg-slate-300" onClick={() => handleEdit(job)}>
-                                                        <MdOutlineEdit size={15} className="text-[#13285c]" />
-                                                    </button>
-                                                    <span className="mx-1"></span>
-                                                    <button className="p-2 rounded-full bg-slate-300" onClick={() => handleDelete(job.id)}>
-                                                        <MdDelete size={15} className="text-[#c43131]" />
-                                                    </button>
-                                                </div>
+                    : 
+                    (<div className="grid md:grid-cols-2 grid-cols-1">
+                        {jobs.map((job, index) => (
+                            <div key={index} className="m-3 font-mono">
+                                <div className="md:max-w-xs w-full overflow-hidden bg-white border border-gray-200 rounded-xl shadow-md transform transition-all duration-500 hover:shadow-lg hover:scale-105 relative group">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-white opacity-0 transition-opacity duration-500 group-hover:opacity-30 blur-md" />
+                                    <div className="px-6 py-5 relative z-10">
+                                        <p className="text-xl font-semibold text-gray-800 capitalize">
+                                            {job.title}
+                                        </p>
+                                        <p className="leading-none text-[#787878ce] text-[0.9rem] font-semibold">{job.role}</p>
+                                        <p className="font-semibold mt-3">{job.salary}</p>
+                                        <p>{job.location}</p>
+                                        <hr className="my-1" />
+                                        <div className="flex justify-between items-center font-semibold text-xs text-gray-500">
+                                            <p>{moment(job.createdAt).format('DD MMM YYYY')}</p>
+                                            <div className="flex justify-end items-center text-xs">
+                                                <button className="p-2 rounded-full bg-slate-300" onClick={() => handleEdit(job)}>
+                                                    <MdOutlineEdit size={15} className="text-[#13285c]" />
+                                                </button>
+                                                <span className="mx-1"></span>
+                                                <button className="p-2 rounded-full bg-slate-300" onClick={() => handleDelete(job.id)}>
+                                                    <MdDelete size={15} className="text-[#c43131]" />
+                                                </button>
                                             </div>
-
                                         </div>
+
                                     </div>
                                 </div>
-                            ))}
-                        </div>)
-                        :
-                        (
-                            <h1 className="text-center my-4">Data Not Found</h1>
-                        )}
+                            </div>
+                        ))}
+                    </div>)
+                }
+                {!isLoading && jobs.length <= 0 && (
+                    <h1 className="text-center font-semibold my-2">Data Not Found</h1>
+                )}
             </div>
             <Modal
                 isOpen={modalIsOpen}
