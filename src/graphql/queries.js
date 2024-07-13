@@ -11,6 +11,16 @@ export const GET_JOBS = `query MyQuery {
     title
     updatedAt
   }
-}
+}`;
 
-`;
+export const FILTER_JOBS = `query MyQuery($role:String!) {
+  jobs(where: {role: {_eq: $role}}) {
+    id
+    createdAt
+    location
+    role
+    salary
+    title
+    updatedAt
+  }
+}`;

@@ -2,11 +2,13 @@
 
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+
 import InputField from "./InputField";
 import client from "@/graphql/client";
 import { CRETE_JOB_MUTATION } from "@/graphql/mutation";
 import { useJobContext } from "@/context/JobContext";
 import SelectField from "./SelectField";
+import toast from "react-hot-toast";
 
 const LeftSide = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -14,7 +16,7 @@ const LeftSide = () => {
 
   const onSubmit = async (data) => {
     const response = await client.request(CRETE_JOB_MUTATION, data);
-    alert("Job added successfully!");
+    toast.success('Job added successfully!')
     setJobs([response.insert_jobs_one, ...jobs]);
     reset();
   };

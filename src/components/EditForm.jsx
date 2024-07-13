@@ -6,6 +6,7 @@ import { EDIT_JOB_MUTATION } from "@/graphql/mutation";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 import { useJobContext } from "@/context/JobContext";
+import toast from "react-hot-toast";
 
 const EditForm = ({job, setIsOpen}) => {
     const { jobs, setJobs } = useJobContext();
@@ -18,7 +19,7 @@ const EditForm = ({job, setIsOpen}) => {
             location: data.location,
             salary:data.salary
         });
-        alert("Job edit successfully!");
+        toast.success('Job Updated successfully!')
         setJobs([response.insert_jobs_one, ...jobs]);
         setJobs(jobs.map(j => (j.id === job.id ? data : j)));
         reset();
@@ -55,11 +56,11 @@ const EditForm = ({job, setIsOpen}) => {
                 validation={{ required: "Job salary is required" }}
                 error={errors.salary}
             />
-            <button
-                type="submit"
-                className="w-full py-1 bg-[#000000da] text-white rounded"
-            >
+            <button type="submit" className="w-full py-1 bg-[#000000da] text-white rounded">
                 Submit
+            </button>
+            <button className="w-full py-1 bg-[#8d2e43da] text-white rounded" onClick={() => setIsOpen(false)}>
+                Cancel
             </button>
         </form>
     )
