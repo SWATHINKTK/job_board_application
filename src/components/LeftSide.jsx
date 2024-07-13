@@ -9,13 +9,14 @@ import { useJobContext } from "@/context/JobContext";
 import SelectField from "./SelectField";
 
 const LeftSide = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const { jobs, setJobs } = useJobContext();
 
   const onSubmit = async (data) => {
     const response = await client.request(CRETE_JOB_MUTATION, data);
     alert("Job added successfully!");
     setJobs([response.insert_jobs_one, ...jobs]);
+    reset();
   };
 
   return (

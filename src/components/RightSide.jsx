@@ -3,17 +3,39 @@ import { useJobContext } from "@/context/JobContext";
 import client from "@/graphql/client";
 import { GET_JOBS } from "@/graphql/queries";
 import moment from "moment";
+import Modal from 'react-modal';
 import { Erica_One } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { BsFilterRight } from "react-icons/bs";
 import { DELETE_JOB_MUTATION } from "@/graphql/mutation";
+import EditForm from "./EditForm";
 
 const RightSide = () => {
     const { jobs, setJobs } = useJobContext();
     const [isFilterOpen, setFilterOpen] = useState(false);
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [editData, setEditData] = useState({});
 
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+
+      function openModal() {
+        setIsOpen(true);
+      }
+
+      function closeModal() {
+        setIsOpen(false);
+      }
     useEffect(() => {
         const getData = async () => {
             try {
@@ -26,12 +48,13 @@ const RightSide = () => {
         getData();
     }, [setJobs]);
 
-    const handleEdit = (id) => {
-        alert(id)
+    const handleEdit = (jobData) => {
+        setEditData(jobData)
+        setIsOpen(true);
     }
 
-    const handleDelete = async(id) => {
-        await client.request(DELETE_JOB_MUTATION, {id});
+    const handleDelete = async (id) => {
+        await client.request(DELETE_JOB_MUTATION, { id });
         alert('Deleted')
         setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
     }
@@ -40,8 +63,8 @@ const RightSide = () => {
             <div className="h-[10vh] flex flex-col justify-end">
                 <div className="flex justify-between bg-[#ffffff] text-[#000] rounded-sm px-3 py-2">
                     <h1 className="text-2xl font-bold">Job Lists</h1>
-                    <button onClick={()=>setFilterOpen(!isFilterOpen)} className="bg-gray-200 px-2 rounded">
-                        <BsFilterRight size={25}/>
+                    <button onClick={() => setFilterOpen(!isFilterOpen)} className="bg-gray-200 px-2 rounded">
+                        <BsFilterRight size={25} />
                     </button>
                     {/* Dropdown menu */}
                     {isFilterOpen && (
@@ -75,8 +98,8 @@ const RightSide = () => {
                                     <div className="flex justify-between items-center font-semibold text-xs text-gray-500">
                                         <p>{moment(job.createdAt).format('DD MMM YYYY')}</p>
                                         <div className="flex justify-end items-center text-xs">
-                                            <button className="p-2 rounded-full bg-slate-300" onClick={() => handleEdit(job.id)}>
-                                                <MdOutlineEdit size={15} className="text-[#13285c]"/>
+                                            <button className="p-2 rounded-full bg-slate-300" onClick={() => handleEdit(job)}>
+                                                <MdOutlineEdit size={15} className="text-[#13285c]" />
                                             </button>
                                             <span className="mx-1"></span>
                                             <button className="p-2 rounded-full bg-slate-300" onClick={() => handleDelete(job.id)}>
@@ -91,6 +114,14 @@ const RightSide = () => {
                     ))}
                 </div>
             </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <EditForm job={editData} setIsOpen={setIsOpen}/>
+            </Modal>
         </div>
     );
 };
